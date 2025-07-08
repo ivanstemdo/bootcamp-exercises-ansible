@@ -1,0 +1,23 @@
+---
+- name: verificar conectividad con nodos
+  hosts: webservers
+  tasks:
+    - name: hacer ping
+      ansible.builtin.ping:
+
+- name: instalar apache y comprobar estado
+  hosts: webservers
+  become: true
+  tasks:
+    - name: instalar apache
+      ansible.builtin.package:
+        name: apache2
+        state: present
+
+    - name: comprobar estado del servicio
+      ansible.builtin.shell: systemctl is-active apache2
+      register: apache_status
+
+    - name: mostrar estado
+      ansible.builtin.debug:
+        msg: "estado de apache: {{ apache_status.stdout }}"
