@@ -1,0 +1,6 @@
+---
+- name: guardar fecha del nodo 2
+  hosts: proxy
+  tasks:
+    - name: guardar fecha en /tmp/fecha.txt
+      ansible.builtin.shell: date >> /tmp/fecha.txt
