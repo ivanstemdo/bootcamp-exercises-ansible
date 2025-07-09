@@ -1,0 +1,9 @@
+---
+- name: comprimir directorio tomcat
+  hosts: webservers
+  tasks:
+    - name: comprimir
+      archive:
+        path: /usr/lib/apache2/modules
+        dest: $HOME/comprimido_ej3_sin_variables.tar.gz
+        format: gz

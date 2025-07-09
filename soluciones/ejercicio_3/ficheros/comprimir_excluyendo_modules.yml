@@ -1,0 +1,31 @@
+---
+- name: comprimir directorio modules de apache2 excluyendo
+  hosts: webservers
+  vars:
+    path_dir: /usr/lib/apache2/modules
+    path_dest: $HOME/comprimido_ej3_excluyendo.tar.gz
+
+  tasks:
+    - name: buscar todos los archivos en {{ path_dir }}
+      find:
+        paths: "{{ path_dir }}"
+        file_type: file
+        recurse: true
+      register: archivos
+
+    - name: filtrar archivos para excluirlos
+      set_fact:
+        archivos_filtrados: >-
+          {{ archivos.files
+          | selectattr('path', 'defined')
+          | selectattr('path', 'match', '^(?!.*proxy).*')
+          | selectattr('path', 'match', '^(?!.*\.exp$).*')
+          | map(attribute='path')
+          | list }}
+
+    - name: comprimir archivos filtrados
+      archive:
+        path: "{{ archivos_filtrados }}"
+        dest: "{{ path_dest }}"
+        format: gz
+      register: result
