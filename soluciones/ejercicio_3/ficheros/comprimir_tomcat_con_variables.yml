@@ -1,0 +1,12 @@
+---
+- name: comprimir directorio tomcat
+  hosts: proxy 
+  vars:
+    path_dir: /usr/lib/apache2/modules
+    path_dest: $HOME/comprimido_ej3_con_variables.tar.gz
+  tasks:
+    - name: comprimir
+      archive:
+        path: "{{ path_dir }}"
+        dest: "{{ path_dest }}"
+        format: gz

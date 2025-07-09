@@ -1,0 +1,11 @@
+---
+- name: instalar paquete desde repo
+  hosts: proxy
+  become: yes
+
+  tasks:
+    - name: instalar paquete desde repo
+      apt:
+        name: "{{ nombre_paquete }}"
+        state: present
+        update_cache: yes

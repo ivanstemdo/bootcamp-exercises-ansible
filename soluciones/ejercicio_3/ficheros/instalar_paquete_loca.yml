@@ -1,0 +1,20 @@
+---
+- name: instalar paquete local
+  hosts: webservers
+
+  vars:
+    path_remoto_de_paquete: "/tmp/tree_1.8.0-1_amd64.deb"
+
+  tasks:
+    - name: copiar paquete a nodo
+      copy:
+        src: "{{ paquete }}"
+        dest: "{{ path_remoto_de_paquete }}"
+        mode: '0644'
+
+    - name: instalar
+      become: yes
+      ansible.builtin.apt:
+        deb: "{{ path_remoto_de_paquete }}"
+        state: present
+
