@@ -1,0 +1,21 @@
+---
+- name: esperar a que desaparezca el archivo dummy.txt
+  hosts: all
+
+  tasks:
+    - name: crear el archivo
+      ansible.builtin.file:
+        path: /tmp/dummy.txt
+        state: touch
+        mode: '0644'
+
+    - name: esperar a que se borre
+      ansible.builtin.wait_for:
+        path: /tmp/dummy.txt
+        state: absent
+        timeout: 600  # 10 minutos de espera máximo
+
+    - name: mostrar mensaje
+      ansible.builtin.debug:
+        msg: "el archivo se eliminó"
+

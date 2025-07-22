@@ -1,0 +1,25 @@
+- name: ejercicio 4
+  hosts: all
+  become: true
+  tasks:
+
+    - name: instalación
+      block:
+
+        - name: intentar instalar git con apt
+          apt:
+            name: git
+            state: present
+            update_cache: yes
+
+      rescue:
+
+        - name: intentar instalar git con yum
+          yum:
+            name: git
+            state: present
+
+      always:
+        - name: indicar fin de playbook
+          debug:
+            msg: "se ha completado el intento de instalación de git"
